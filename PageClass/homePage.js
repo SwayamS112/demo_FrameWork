@@ -1,5 +1,5 @@
 const { baseClass } = require('./baseClass.js');
-
+const {expect} = require('@playwright/test')
 class homePage extends baseClass {
     constructor(page) {
         super(page);
@@ -7,10 +7,10 @@ class homePage extends baseClass {
         this.productsCard = '.inventory_item';
     }
     async verifyLeftCornerText() {
-        await this.page.locator(this.LeftCornerText).toContainText("Products");
+        await expect(this.page.locator(this.LeftCornerText)).toContainText("Products");
     }
     async getProductCount() {
-        return await this.page.locator(this.productsCard).count(); 
+        await expect(this.page.locator(this.productsCard)).toHaveCount(6); 
     }
 }
 

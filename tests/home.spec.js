@@ -10,6 +10,6 @@ test("Validate Home Page after Login", async ({ page }) => {
     await login.formFill('standard_user','secret_sauce');
     
     const home = new homePage(page)
-    const count = await home.getProductCount();
-    await expect(count).toBe(6);
+    await home.verifyLeftCornerText();
+    await home.getProductCount();
 });

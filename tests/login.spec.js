@@ -1,16 +1,20 @@
 const { test, expect } = require('@playwright/test');
 const { loginPage } = require('../PageClass/loginPage');
 
-test.skip("Login with Valid Credentials", async ({ page }) => {
-    const login = new loginPage(page);
+test.describe("Validation with Valid crudentails",()=>{
+    test("Login Correct Crudentails", async ({ page }) => {
+        const login = new loginPage(page);
+    
+        await login.openLoginPage();
+        await login.formFill('standard_user', 'secret_sauce');
+    
+        await expect(page).toHaveURL(/inventory/);
+    });
+})
 
-    await login.openLoginPage();
-    await login.formFill('standard_user', 'secret_sauce');
 
-    await expect(page).toHaveURL(/inventory/);
-});
-
-test.skip('Login with Locked user',async({page})=>{
+test.describe("Validation with InValid crudentails",()=>{
+test('Login with Locked user',async({page})=>{
     const login = new loginPage(page);
 
     await login.openLoginPage();
@@ -20,7 +24,7 @@ test.skip('Login with Locked user',async({page})=>{
     await expect(error).toContain('user has been locked out.');
 })
 
-test.skip("Login with inValid Credentials", async ({ page }) => {
+test("Login with inValid Credentials", async ({ page }) => {
     const login = new loginPage(page);
 
     await login.openLoginPage();
@@ -29,3 +33,4 @@ test.skip("Login with inValid Credentials", async ({ page }) => {
     const error = await login.getErrMsg();
     await expect(error).toContain('Username and password do not match');
 });
+})
